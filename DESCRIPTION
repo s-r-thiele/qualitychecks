@@ -1,0 +1,30 @@
+Package: qualitychecks
+Title: A Package Performing Quality Checks on Fearbase Datasets
+Version: 0.0.0.9000
+Authors@R: 
+    person("Samuel Rasmus", "Thiele", , "samuel.thiele@uni-bielefeld.de", role = c("aut", "cre"))
+Description: This package performs standardized quality checks on datasets from the fearbase. It checks the following Parameters: 'participant_n', 'participant_id', 'phases', 'ratings', 'questionnaires', 'aggregation', transformation', 'timepoint', and 'frequency'.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports: 
+    dplyr,
+    ggplot2,
+    readr,
+    rlang,
+    sn,
+    stats,
+    stringr,
+    tibble,
+    tidyselect,
+    utils
+Config/roxygen2/version: 8.1.0
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5)
+LazyData: true

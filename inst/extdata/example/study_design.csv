@@ -1,0 +1,4 @@
+study_id,name,orderPosition,timeToNext,timeToNextUnit,cspTrials,csmTrials,gsTrials,description,noStimulusTrials
+001,acq,1,1,days,6,6,,,0
+001,ext,2,1,days,6,6,,,0
+001,rex,3,,,6,6,,,0

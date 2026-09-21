@@ -1,0 +1,305 @@
+---
+title: "Troubleshooting: Why did a check fail?"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Troubleshooting: Why did a check fail?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette collects the most common reasons each of the nine
+`quality_checks()` checks fails, and what to look at first. It doesn't
+replace reading the actual `summary()` output for your data - start
+there, then come back here for the check that failed.
+
+A failed check usually means one of two things: either the **metadata**
+description of the study doesn't match the **data** that was actually
+exported, or our own **reference information** (codebook, item counts,
+expected ranges) is incomplete or out of date for a particular
+measure. Both are worth checking before assuming the underlying data
+itself is wrong.
+
+## Participant n
+
+**Problem:** the check for the number of participants did not pass.
+
+### The expected number of participants is higher/lower than the observed number
+
+Check the following:
+
+- Does the number of participants in the metadata match the number
+  reported in the publication?
+- Is the provided dataset only a subset of a full dataset?
+- Did the authors report the removal of some participants?
+
+**Why this happens:** if the number of participants specified in the
+metadata does not match the number of rows found in the wide dataset,
+this check fails. If the dataset is only a subset of a full dataset, the
+number of individuals in the dataset might be lower than the number of
+participants reported in the publication. If the authors reported the
+number of participants after removing outliers/missing data, but
+provided the full uncleaned data, the number of *observed* participants
+might be higher than the number *expected*.
+
+### The number of participants in the dataset itself might be wrong
+
+Check the following:
+
+- Are there any duplicates in `participant_id`?
+- Is the provided dataset only a subset of a full dataset?
+- Did the authors report the removal of some participants?
+
+**Why this happens:** if the data is in long format, or there are
+duplicate participant IDs, the number of observed participants might be
+higher than expected. If the publication only analyzed a subset of the
+data but provided the full dataset, observed participants might exceed
+the expected count. If the authors reported the number of participants
+*before* removing outliers/missing data but provided the *cleaned*
+dataset, observed participants might be lower than expected.
+
+## Phases
+
+**Problem:** the check for phases failed.
+
+### One or more phases can not be found in the data
+
+Check the following:
+
+- Did the original dataset include data on more phases than the dataset
+  provided?
+- Did the original authors use an experimental design which cannot be
+  captured by the phases we provide?
+- Did the original authors not separate data on phases we separate?
+
+**Why this happens:** if the original dataset had more data, which
+included the phases that failed this test, there likely was an error in
+our data preparation. If the original authors used an experimental
+design that cannot be captured by the standard phases we provide, this
+might lead to naming problems, or removal of these phases in the data
+while the metadata was not updated accordingly. If the original authors
+provided data on two or more phases but did not separate these phases in
+the data, some phases might fail the test.
+
+## Ratings
+
+**Problem:** a rating did not pass the test.
+
+### One or more ratings were not found in the data
+
+Check the following:
+
+- Did the original dataset include data on more ratings than the dataset
+  provided?
+- Did the original authors use ratings we do not support right now?
+- Can the rating be found in the data?
+- Is the abbreviation of the rating correct in the variable name?
+
+**Why this happens:** if the original dataset had more data, which
+included the rating that failed this test, there likely was an error in
+our data preparation. If the original authors used a rating we do not
+support right now, but it was entered anyway, this can lead to a rating
+failing the test. If the rating cannot be found in the data at all, this
+also leads to the rating failing the test.
+
+## Questionnaires
+
+**Problem:** a questionnaire did not pass the test.
+
+### One or more questionnaires were not found in the data
+
+Check the following:
+
+- Did the original dataset include data on more questionnaires than the
+  dataset provided?
+- Did the original authors use questionnaires we do not support right
+  now?
+- Can the questionnaire be found in the data?
+- Is the abbreviation of the questionnaire correct in the variable name?
+
+**Why this happens:** if the original dataset had more data, which
+included the questionnaire that failed this test, there likely was an
+error in our data preparation. If the original authors used a
+questionnaire we do not support right now, but it was entered anyway,
+this can lead to a questionnaire failing the test. If the questionnaire
+cannot be found in the data at all, this also leads to it failing the
+test.
+
+## Aggregation
+
+**Problem:** a rating or questionnaire did not pass the test.
+
+### Expected ranges of one or more ratings did not match the observed ranges
+
+Check the following:
+
+- Does the aggregation information from the metadata match the variable
+  name?
+- Is the information on the aggregation correct?
+- Is the range of the rating provided in the metadata correct?
+
+**Why this happens:** if the aggregation information in the metadata
+does not match the information in the variable name, the respective
+columns might not be found by the function. If the aggregation is not
+specified correctly, expected and observed values of the range might
+deviate. If the range of the rating is incorrect in the metadata, ranges
+with values above or below this range will lead to a failed test.
+
+### Expected ranges of one or more questionnaires did not match the observed ranges
+
+Check the following:
+
+- Does the aggregation information from the metadata match the variable
+  name?
+- Is the information on the aggregation correct?
+- Is our information on the range of the questionnaire correct?
+- Is our information on the number of items of the questionnaire correct?
+
+**Why this happens:** if the aggregation information in the metadata does
+not match the information in the variable name, the respective columns
+might not be found by the function. If the aggregation is not specified
+correctly, expected and observed values of the range might deviate. If
+our information on the range of the questionnaire is incorrect, the
+observed values might exceed the expected limits. If our information on
+the number of items is incorrect and the items of the questionnaire are
+summed, the observed values might likewise exceed the expected limits.
+
+If a questionnaire is present in your data but has no entry at all in
+our reference table, the check for it fails with an explicit message
+telling you to contact us, rather than silently reporting a wrong range
+- see `vignette("getting-started")`.
+
+## Transformation
+
+**Problem:** one or more measures failed the test.
+
+### The expected mean/standard deviation/range for a measure do not match the observed values
+
+Check the following:
+
+- Does the information on transformation in the metadata match the
+  information in the original publication?
+- Is there a README file in the original dataset indicating any other
+  transformation?
+- Might the order of transformations affect the observed values?
+- Is there missing data in the respective data columns?
+- Does the information on transformation in the metadata match the
+  information in the variable name?
+- Can the measure be found in the data?
+
+**Why this happens:** if the information on the transformation is wrong,
+means, standard deviations and ranges might deviate from the expected
+values. Even though the original publication might report transformed
+variables, authors often provide the original, untransformed data, which
+can lead to this check failing.
+
+The order in which transformations were applied can affect the observed
+mean/SD/range. **Checking the order of transformations is not currently
+supported**, which can lead to a false negative here - this is a known
+limitation, not something to expect a fix for in the near term.
+
+If the transformation information does not match between the variable
+name and the metadata, this can also lead to a failing test. If the
+variable cannot be found in the data at all, the test for it fails
+automatically.
+
+## Timepoint
+
+**Problem:** a measure did not pass the test for timepoints.
+
+### One or more timepoints for one or more variables were not found in the data
+
+Check the following:
+
+- Is the information in the metadata correct?
+- If data is collected only before or after a phase, is it possible
+  there is a mismatched coding between the variable names and the
+  metadata?
+- Does the information on the timepoint in the metadata match the
+  information in the variable name?
+- Is there information on the timepoint in the variable name at all?
+
+**Why this happens:** if the information in the metadata is not correct,
+this can lead to a failed test. A variable collected *after* Phase 1
+could, for example, also be validly coded as *before* Phase 2 - if this
+is mismatched between the metadata and the variable name, the test might
+fail. If there is no timepoint information in the variable name at all,
+the respective columns cannot be found, which fails the test.
+
+## Frequency
+
+**Problem:** a measure did not pass the test.
+
+### The expected number of columns is higher/lower than the observed number
+
+Check the following:
+
+- Is the information in the metadata correct?
+- Is the information provided in the variable name?
+- Does the information in the metadata match the information in the
+  variable name?
+
+**Why this happens:** if the information in the metadata is incorrect,
+the number of expected columns likely deviates from the number observed.
+If the frequency information is missing or wrong in the variable name,
+the function will not find the respective column.
+
+### The information on the timepoint might be insufficient
+
+Check the following:
+
+- Is the information on the timepoint correct?
+- Was the variable collected before/after every phase, or only some?
+
+**Why this happens:** the function expects assessments before/after
+*every* phase. If a variable was, for example, only assessed before two
+of four phases, the number of expected columns will likely be higher
+than the number observed. **This is a known issue in our specification
+that will not be fixed** - if a variable is genuinely only assessed
+around a subset of phases, expect this check to report more expected
+columns than observed.
+
+### The measure might have been assessed for multiple US/CS+/CS-
+
+Check the following:
+
+- Was the measure assessed for all US/CS+/CS-, or only some?
+- Are the measures aggregated across multiple US/CS+/CS-?
+
+**Why this happens:** if the variable was assessed for only one
+US/CS+/CS- but the experiment used multiple different US/CS+/CS-, or the
+measurements were aggregated, the number of columns expected will be
+higher than the number observed. A more exact specification for this
+case is not currently supported.
+
+### For questionnaires: the number of items provided by us or in the data might be wrong
+
+Check the following:
+
+- Was a different questionnaire used (more/fewer items, a translation, a
+  revised version)?
+- Is the number of items provided in our overview correct?
+- Is the item number in the variable name continuous, without skips or
+  doubles?
+
+**Why this happens:** some questionnaires deviate from what we expect in
+their number of items or response-option range, despite a similar name -
+alternatively, our own reference information might be faulty. **If this
+happens, please contact us.** If the item number in the variable name
+contains skips or doubles, the number of observed columns might deviate
+from the number expected.
+
+## Still stuck?
+
+If none of the above explains a failing check, or you suspect our
+reference data (codebook, item counts, expected ranges) is incomplete or
+incorrect for a measure, please get in touch with the Fearbase team
+rather than guessing further - especially for the cases above marked as
+"please contact us", since those point at gaps in our own reference
+tables rather than problems with your data.

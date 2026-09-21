@@ -1,0 +1,92 @@
+attribute,abbreviation,name,description
+measure,participant_id,"participant id","Unique identifier for each participant in the original data set."
+measure,exp_group,"experimental group","Experimental groups or conditions indicated by unique labels."
+measure,sex,sex,"Sex variable with two possible entries: ‘male’ or ‘female’."
+measure,gender,gender,"Gender variable with possible entries: ‘male’,  ‘female’ or other originally coded gender entries."
+measure,age,age,"Age in years."
+measure,hormc,"hormonal contraceptives","Hormonal Contraceptives assessed as a YES/NO question."
+measure,intset,"US intensity setting","US intensity setting in the unit provided in the meta data."
+measure,scr,"skin conductance response","Amplitude of skin conductance response to stimulus."
+measure,scl,"skin conductance level","Skin conductance level."
+measure,ps,"pupil size","Pupil size."
+measure,fps,"fear potentiated startle (emg)","Fear potentiated startle response (electromyography)."
+measure,hr,"heart rate","Heart rate."
+measure,expect,"US expectancy rating","US expectancy rating of the CS stimuli."
+measure,us_intrat,"US intensity rating","Intensity rating of the US stimulus."
+measure,val,"valence rating","Valence rating of CS stimuli."
+measure,arous,"arousal rating","Arousal rating of CS stimuli."
+measure,fear,"fear rating","Fear rating of CS stimuli."
+measure,stress,"stress rating","Stress rating of CS stimuli."
+measure,anx,"anxiety rating","Anxiety rating of CS stimuli."
+measure,aware,"contingency awareness","US-CS contingency awareness rating."
+measure,us_val,"US valence rating","Valence rating of the US stimulus."
+measure,us_arous,"US arousal rating","Arousal rating of the US stimulus."
+measure,uneas,"uneasiness rating","Uneasiness rating of CS stimuli."
+measure,stais,"State Trait Anxiety Inventory (STAI-S)",
+measure,stait,"State Trait Anxiety Inventory (STAI-T)",
+measure,neo-ffi,"Big 5 Questionnaire",
+measure,promis,"Patient-Reported Outcomes Measurement Information System (PROMIS)",
+measure,asi,"Anxiety Sensitivity Index (ASI)",
+measure,ius,"Intolerance of Uncertainty Scale (IUS)",
+measure,pswq,"Penn State Worry Questionnaire (PSWQ)",
+measure,neo_pi_r,"NEO Personality Inventory (revised) (NEO-PI-R)",
+measure,dass-21,"Depression Anxiety Stress Scales (short form) (DASS-21)","Short form with 21 items of the DASS"
+measure,dass-21-a,"Depression Anxiety Stress Scales (short form) (DASS-21) - Anxiety Subscale","Anxiety Subscale of the DASS-21"
+measure,ads-l,"Allgemeine Depressionsskala (long version) (ADS-L)","Long version of the ADS"
+measure,fsq,"Fear of Spiders Questionnaire (FSQ)",
+measure,sam,"Self-Assessment Manikin (SAM)",
+measure,bdi,"Beck Depression Inventory (BDI)",
+measure,fpq,"Fear of Pain Questionnaire (FPQ)",
+measure,scl_90,"Symptoms Checklist 90 (SCL-90)",
+measure,fpq-sf,"Fear of Pain Questionnaire - Short Form (FPQ-SF)",
+measure,sticsa,"Stait-Trait Inventory for Cognitive and Somatic Anxiety (STICSA)",
+measure,vams,"Visual Analogue Mood Scales",
+transformation,dem,demeaned,"The mean was subtracted from each value."
+transformation,log,"log transformed values","Data were log-transformed."
+transformation,range,"range corrected","Data were range-corrected."
+transformation,sqrt,"square root","Data were square-root transformed."
+transformation,t,"t-transformed values","Data were t-transformed."
+transformation,z,"z-transformed values","Data were z-transformed."
+transformation,raw,"not transformed","Data were not transformed."
+transformation,other,other,"Other transformation"
+frequency,trialwise,"for each trial","Data were collected or aggregated for each trial."
+frequency,blockwise,"for each block","Data were collected or aggregated for each block."
+frequency,phasewise,"for each phase","Data were collected or aggregated for each phase."
+frequency,daywise,"on every day","Data were collected or aggregated for each day."
+frequency,experimentwise,"for the experiment","Data were collected only once or at a small number of time points during the experiment (to be specified under ‘timepoint’)"
+timepoint,pre,"before sth ","The measurement occurred before or at the beginning of an experiment/day/phase/block."
+timepoint,mid,"in the middle ","The measurement occurred in the middle of a phase/block."
+timepoint,post,"after sth","The measurement occurred after or at the end of an experiment/day/phase/block."
+phase,hab,habituation,"Conditioned stimuli (CSs) or startle probes are presented prior to the acquisition phase; no US is presented"
+phase,acq,acquisition,"A conditioned stimulus (CS+) is presented with an unconditioned stimulus (US). In differential fear conditioning paradigms, a second conditioned stimulus (CS-) is presented without the US."
+phase,ext,extinction,"The CS+ is (repeatedly) presented without the US."
+phase,gen,generalization,"Generalization stimuli (GSs) that resemble the CSs are presented alongside the CSs."
+phase,rex,re-extinction,"Post-extinction procedure: The CSs are presented again, with the CS+ no paired with the US. Also referred to as: spontaneous recovery, extinction recall, extinction retention test."
+phase,rin,"reinstatement test","Post-extinction procedure: Test of fear responses after an unannounced re-exposure to the US."
+phase,ren,renewal,"Post-extinction procedure: The CSs are presented without the US, accompanied by a change in context from the extinction and/or acquisition training phases."
+phase,rea,reacquisition,"Post-extinction procedure: The conditioned stimuli are presented again, and the CS+ is again presented with the US."
+phase,rev,reversal,"Post-extinction procedure: CS contingencies are reversed such that the former CS+ becomes unpaired and the CS− becomes paired."
+phase,int,intervention,"Describes any type of intervention within a fear conditioning study, including pharmacological treatments, instrumental phases, avoidance, or other behavioral interventions."
+phase,other,other,Other
+stimulus,csm1,"CS- (first)","The first or only CS- presented in the experiment."
+stimulus,csm2,"CS- (second)","The second CS- (if multiple CS- were presented)."
+stimulus,csm3,"CS- (third)","The third CS- (if multiple CS- were presented)."
+stimulus,csp1,"CS+ (first)","The first or only CS+ presented in the experiment."
+stimulus,csp2,"CS+ (second)","The second CS+ (if multiple CS+ were presented)."
+stimulus,csp3,"CS+ (third)","The third CS+ (if multiple CS+ were presented)."
+stimulus,gs1,"GS1 (first)","The first or only generalization stimulus (GS) presented in the experiment."
+stimulus,gs2,"GS2 (second)","The second GS (if multiple GS were presented)."
+stimulus,gs3,"GS3 (third)","The thirds GS (if multiple GS were presented)."
+stimulus,gs4,"GS4 (fourth)","The fourth GS (if multiple GS were presented)."
+stimulus,gs5,"GS5 (fifth)","The fifth GS (if multiple GS were presented)."
+stimulus,gs6,"GS6 (sixth)","The sixth GS (if multiple GS were presented)."
+stimulus,gs7,"GS7 (seventh)","The seventh GS (if multiple GS were presented)."
+stimulus,gs8,"GS8 (eighth)","The eighth GS (if multiple GS were presented)."
+stimulus,gs9,"GS9 (ninth)","The ninth GS (if multiple GS were presented)."
+stimulus,gs10,"GS10 (tenth)","The tenth GS (if multiple GS were presented)."
+stimulus,no-stim,"no stimulus (noise alone) ","No stimulus was presented (e. g. startle probe/noise alone)."
+stimulus,us1,"US (first)","The first or only US presented in the experiment."
+stimulus,us2,"US (second)","The second US (if multiple US were presented)."
+aggregation,avrg,"average of several measurements","Several measurements were averaged across an experiment/day/stimulus/phase/block."
+aggregation,sum,"sum of several measurements","Several measurements were summed to obtain a total value."
+aggregation,other,other,"Other form of aggregation."

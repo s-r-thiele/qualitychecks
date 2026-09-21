@@ -1,0 +1,130 @@
+---
+title: "Getting Started with qualitychecks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with qualitychecks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message = FALSE}
+library(qualitychecks)
+```
+
+## What this package does
+
+A Fearbase study export bundles two things: the actual **measurement
+data** (one row per participant, one column per measure/timepoint/...),
+and **metadata** that specifies what was supposed to be collected - which
+ratings and questionnaires, how often, with what transformation, and so
+on.
+
+`quality_checks()` compares the two. It reads both, and for nine
+different aspects of the study (number of participants, participant IDs,
+phases, ratings, questionnaires, aggregation, transformation, timepoints,
+frequency) checks whether what the metadata *specifies* actually matches
+what is *observed* in the data. The result tells you where the two
+disagree, so problems can be caught before a dataset is accepted.
+
+## What `quality_checks()` needs
+
+`quality_checks()` takes the path to a directory containing four files:
+
+| File               | Contents                                              |
+|--------------------|--------------------------------------------------------|
+| `data_wide.csv`    | The measurement data, one row per participant          |
+| `metadata.csv`     | The study's metadata specification                     |
+| `study_design.csv` | The study's phases and their timing/trial structure     |
+| `codebook.csv`     | The reference codebook of known measure abbreviations   |
+
+In the future, there may be support for a long data format, however, this is
+not yet supported.
+
+It also needs reference values for every questionnaire it checks (the
+expected number of items, and - for ratings and questionnaires without a
+declared aggregation - the plausible value range). These come from a set
+of reference tables that ship with the package, so you don't normally
+need to supply anything extra:
+
+```{r}
+package_dependency_path()
+```
+
+You only need to point `quality_checks()` at a different
+`dependencies_path` if you're checking a measure the package doesn't
+know about yet, or want to try out different reference values for a
+specific study - see `?quality_checks` for details. If a questionnaire is
+present in your data but missing from these reference tables, the
+relevant check fails with a clear message asking you to get in touch
+rather than silently giving a wrong answer.
+
+## Running the checks
+
+This package ships a small example study export you can try this out on
+right away:
+
+```{r}
+example_path <- system.file("extdata", "example", package = "qualitychecks")
+list.files(example_path)
+```
+
+```{r, message = FALSE}
+qc <- quality_checks(example_path)
+class(qc)
+```
+
+The result is an object of class `quality_checks` - a list with one entry
+per check, each carrying its own class so it can be summarised
+individually. Printing it with `summary()` gives a compact overview:
+
+```{r}
+summary(qc)
+```
+
+## Digging into a single check
+
+Each individual check can be summarised on its own, either by pulling it
+out of `qc` directly:
+
+```{r}
+summary(qc$aggregation)
+```
+
+or, equivalently, via `summary(qc, full = TRUE)`, which prints the
+detailed summary of every check in one go - useful for a full report, or
+when several checks need a closer look at once:
+
+```{r}
+summary(qc, full = TRUE)
+```
+
+## When a check fails
+
+A failed check means the metadata specification and the observed data
+disagree somewhere - not necessarily that the data itself is wrong. See
+`vignette("troubleshooting")` for a per-check walkthrough of the most
+common reasons a check fails and what to look at first.
+
+## A note on the example data
+
+The bundled example is a synthetic dataset generated to exercise every
+check in this package, not real study data. You'll notice the
+`participant_id`/`age`/`sex`/`intset` columns end in a run of
+underscores (e.g. `participant_id___________`) - that's expected: this
+package's variable-naming scheme has twelve underscore-separated slots
+(`measure_rangeMin_rangeMax_frequency_transformation_timepoint_day_
+phase_block_stimulus_trialNumber_aggregation`), and any slot that doesn't
+apply to a given variable is simply left empty, which is what produces
+the long underscore runs for variables like `age` that don't carry a
+frequency, timepoint, and so on.
+
+You may also see a harmless message like `New names: `` -> `...1`` ` when
+`data_wide.csv` is read - this comes from an unnamed leading index column
+in the exported CSV and can be ignored.
