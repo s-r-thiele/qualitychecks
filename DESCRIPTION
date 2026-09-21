@@ -28,3 +28,5 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 3.5)
 LazyData: true
+URL: https://github.com/s-r-thiele/qualitychecks
+BugReports: https://github.com/s-r-thiele/qualitychecks/issues
