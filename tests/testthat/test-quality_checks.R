@@ -32,3 +32,24 @@ test_that("fix_rating_names strips a leading 'us_' prefix where present", {
   expect_equal(fix_rating_names(c("us_intrat", "fear")), c("intrat", "fear"))
   expect_equal(fix_rating_names(character(0)), character(0))
 })
+
+test_that("quality_checks() stores the inputs in the result object", {
+
+  path <- system.file("extdata", "example", package = "qualitychecks")
+  skip_if(path == "", "example data not installed")
+
+  qc <- suppressMessages(quality_checks(path))
+
+  expect_s3_class(qc, "quality_checks")
+  expect_named(
+    qc$inputs,
+    c("data", "data_format", "metadata", "study_design",
+      "rating_names", "rating_names_fix", "quest_names", "pmeasure_names")
+  )
+  expect_s3_class(qc$inputs$data, "data.frame")
+  expect_gt(nrow(qc$inputs$data), 0)
+  # inputs is not a check: it must not carry a check class
+  expect_false(inherits(qc$inputs, "quality_checks_participant_n"))
+  # summary still works with the extra element
+  expect_no_error(capture.output(summary(qc)))
+})

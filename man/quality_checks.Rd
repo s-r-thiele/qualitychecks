@@ -26,6 +26,13 @@ per check (\code{participant_n}, \code{participant_id}, \code{phases}, \code{rat
 \code{questionnaires}, \code{aggregation}, \code{transformation}, \code{timepoint},
 \code{frequency}). Each entry additionally carries its own S3 class
 (e.g. \code{quality_checks_ratings}) so it can be summarised individually.
+
+The object also contains an \code{inputs} entry (not a check) with the
+material the checks were run on, so that follow-up functions (e.g.
+plotting) can work on the result object alone: \code{data}, \code{data_format},
+\code{metadata}, \code{study_design}, and the resolved measure names
+\code{rating_names}, \code{rating_names_fix} (without \code{us_} prefix),
+\code{quest_names}, and \code{pmeasure_names}.
 }
 \description{
 \code{quality_checks()} reads the exported study data and compares the metadata

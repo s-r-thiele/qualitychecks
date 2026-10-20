@@ -26,6 +26,13 @@
 #'   `frequency`). Each entry additionally carries its own S3 class
 #'   (e.g. `quality_checks_ratings`) so it can be summarised individually.
 #'
+#'   The object also contains an `inputs` entry (not a check) with the
+#'   material the checks were run on, so that follow-up functions (e.g.
+#'   plotting) can work on the result object alone: `data`, `data_format`,
+#'   `metadata`, `study_design`, and the resolved measure names
+#'   `rating_names`, `rating_names_fix` (without `us_` prefix),
+#'   `quest_names`, and `pmeasure_names`.
+#'
 #' @examples
 #' \dontrun{
 #' # Standard case: use the reference tables shipped with the package
@@ -79,7 +86,23 @@ quality_checks <- function(path, dependencies_path = NULL) {
     pmeasure_names      = pmeasure_names
   )
 
-  assign_qc_classes(checks)
+  result <- assign_qc_classes(checks)
+
+  # Keep the inputs in the result so follow-up functions (e.g. plotting) can
+  # work on the result object alone. Added AFTER assign_qc_classes() because
+  # `inputs` is not a check and has no check class.
+  result$inputs <- list(
+    data             = inputs$data,
+    data_format      = inputs$data_format,
+    metadata         = inputs$metadata,
+    study_design     = inputs$study_design,
+    rating_names     = rating_names,
+    rating_names_fix = rating_names_fix,
+    quest_names      = quest_names,
+    pmeasure_names   = pmeasure_names
+  )
+
+  result
 }
 
 #' Run every individual quality check
