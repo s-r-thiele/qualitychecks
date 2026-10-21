@@ -370,7 +370,7 @@ summary.quality_checks_transformation <- function(object, ...){
       cat(sprintf("%1s %-22s %16s\n",
                   "",
                   "Mean obs.",                         # Observed mean
-                  paste0(round(range(obs_obj$mean, na.rm = T), 1), collapse = " - ")))
+                  paste0(round(range(obs_obj$mean, na.rm = !all(is.na(obs_obj$mean))), 1), collapse = " - ")))
       cat(sprintf("%1s %-22s %16s\n",
                   "",
                   "SD exp.",                           # Expected standard deviation
@@ -378,7 +378,7 @@ summary.quality_checks_transformation <- function(object, ...){
       cat(sprintf("%1s %-22s %16s\n",
                   "",
                   "SD obs.",                           # Observed standard deviation
-                  paste0(round(range(obs_obj$sd, na.rm = T), 1), collapse = " - ")))
+                  paste0(round(range(obs_obj$sd, na.rm = !all(is.na(obs_obj$sd))), 1), collapse = " - ")))
       cat(sprintf("%1s %-22s %16s\n",
                   "",
                   "Range exp.",                        # Expected range
@@ -386,7 +386,7 @@ summary.quality_checks_transformation <- function(object, ...){
       cat(sprintf("%1s %-22s %16s\n",
                   "",
                   "Range obs.",                        # Observed range
-                  paste0(round(range(obs_obj$range, na.rm = T), 1), collapse = " - ")))
+                  paste0(round(range(obs_obj$range, na.rm = !all(is.na(obs_obj$range))), 1), collapse = " - ")))
     }
   }
   cat("\n")
