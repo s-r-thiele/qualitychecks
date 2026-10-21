@@ -433,6 +433,23 @@ summary.quality_checks_timepoint <- function(object, ...){
     for (i in seq_along(tp[[measure]]$value))   # Across all timepoints provided
     {
       tp_name <- tp[[measure]]$value[i]
+
+      # No timepoint specified: only valid for trialwise measures, where
+      # fun_check_timepoint() records check[["NA"]] = TRUE
+      if (is.na(tp_name))
+      {
+        if (isTRUE(tp[[measure]]$check[["NA"]]))
+        {
+          cat(sprintf("%0s %-22s %17s\n", "", "No timepoint needed", TRUE))
+        }
+        else
+        {
+          # Not trialwise, so a timepoint would have been required
+          cat(sprintf("%0s %-22s %17s\n", "", "Timepoint specified", FALSE))
+        }
+        next
+      }
+
       cat(sprintf("%0s %-22s %17s\n",
                   "",
                   paste0("Timepoints ", tp[[measure]]$value[i], " found"), # Which timepoint was provided?

@@ -6,15 +6,28 @@
 #' (comma-separated if more than one) each have at least one matching
 #' column in `data`.
 #'
+#' **Exception for trialwise measures:** if a measure's `<measure>_frequency`
+#' is `"trialwise"` and no timepoint is specified (`NA`), the measure passes
+#' without a timepoint, because trialwise data is not tied to a timepoint.
+#' If a timepoint *is* specified for a trialwise measure, it is checked like
+#' any other.
+#'
+#'
 #' @note
 #' `pmeasure_names` is accepted but currently unused: physiological
 #' measures are not yet included in the timepoint check. Known limitation,
 #' not addressed here.
 #'
+#' The `<measure>_frequency` column is only used for the trialwise
+#' exception. If it is missing from `metadata` or `NA` for a measure, that
+#' measure is treated as not trialwise (a missing timepoint then fails the
+#' check). The comparison is exact: only the value `"trialwise"` counts.
+#'
 #' @param data A data frame containing the measurement data.
 #' @param metadata A data frame of study metadata, containing a
 #'   `<measure>_timepoint` column for every rating/questionnaire
-#'   administered.
+#'   administered. A `<measure>_frequency` column is used (if present) for
+#'   the trialwise exception described above.
 #' @param study_design A data frame describing the study's phases.
 #'   Currently unused, kept for signature consistency with the other
 #'   `fun_check_*()` functions.
@@ -32,7 +45,8 @@
 #'   (character), plus one named entry per rating/questionnaire (named by
 #'   its abbreviation), each a list with `value` (the specified
 #'   timepoint(s)), `pass` (logical), and `check` (a named list, one entry
-#'   per timepoint, `TRUE`/`FALSE`/`NA`).
+#'   per timepoint, `TRUE`/`FALSE`/`NA`). For a trialwise measure without a
+#'   timepoint, `check` holds a single entry named `"NA"` with value `TRUE`.
 #' @keywords internal
 #' @noRd
 fun_check_timepoint <- function(data, metadata, study_design,
@@ -72,6 +86,10 @@ fun_check_timepoint <- function(data, metadata, study_design,
 
     measures_t <- paste0(measures, "_timepoint")
 
+    # Create frequency variable for frequency = trialwise exception (no need to
+    # provide a timepoint there)
+    measures_f <- paste0(measures, "_frequency")
+
     # Get timepoint info from metadata
     timepoints <- tibble::tibble(metadata[measures_t])
 
@@ -83,12 +101,14 @@ fun_check_timepoint <- function(data, metadata, study_design,
       # Get names
       measure_name <- measures_t[m]
       measure_name_clean <- measures_clean[m]
+      measure_name_f <- measures_f[m]
 
       # Create structure of result object
       check[[measure_name_clean]] <- list()
 
       # Get value for selected variable
       tp <- timepoints[[measure_name]]
+      freq <- if (measure_name_f %in% names(metadata)) metadata[[measure_name_f]] else NA
 
       # Check for more than one entry
       if (any(grepl(",", tp)))
@@ -102,8 +122,16 @@ fun_check_timepoint <- function(data, metadata, study_design,
       # Loop across all entries of timepoint
       for (v in tp)
       {
+
+        # Check if frequency is trialwise and no timepoint is entered
+        if (isTRUE(freq == "trialwise") && is.na(v))
+        {
+          check[[measure_name_clean]]$check[["NA"]] <- TRUE
+          next
+        }
+
         # Check for NAs
-        if (is.na(v))
+        else if (is.na(v))
         {
           check[[measure_name_clean]]$check[["NA"]] <- NA
           next

@@ -98,6 +98,54 @@ test_that("summary.quality_checks_timepoint reports every measure and timepoint"
   expect_match(full, "pre")
 })
 
+test_that("summary.quality_checks_timepoint shows 'No timepoint needed' for trialwise measures without timepoint", {
+
+  metadata <- data.frame(
+    rating_fear_timepoint = NA_character_, rating_fear_frequency = "trialwise",
+    quest_stais_timepoint = "pre", quest_stais_frequency = "experimentwise",
+    stringsAsFactors = FALSE
+  )
+  data <- data.frame(
+    participant_id = 1:3,
+    fear_0_10_trialwise_raw_acq______ = 1:3,
+    stais___experimentwise_raw_pre_____t1_ = 1:3
+  )
+  tp <- fun_check_timepoint(
+    data, metadata, NULL, "fear", "fear", "stais", character(0), "wide"
+  )
+  class(tp) <- "quality_checks_timepoint"
+
+  full <- paste(capture.output(summary(tp)), collapse = "\n")
+
+  expect_match(full, "No timepoint needed\\s+TRUE")
+  expect_match(full, "Timepoints pre found\\s+TRUE")
+  # no spurious "NA" timepoint line
+  expect_no_match(full, "Timepoints NA found")
+})
+
+test_that("summary.quality_checks_timepoint shows 'Timepoint specified FALSE' when a required timepoint is missing", {
+
+  metadata <- data.frame(
+    rating_fear_timepoint = NA_character_, rating_fear_frequency = "experimentwise",
+    quest_stais_timepoint = "pre", quest_stais_frequency = "experimentwise",
+    stringsAsFactors = FALSE
+  )
+  data <- data.frame(
+    participant_id = 1:3,
+    fear_0_10_experimentwise_raw_pre______ = 1:3,
+    stais___experimentwise_raw_pre_____t1_ = 1:3
+  )
+  tp <- fun_check_timepoint(
+    data, metadata, NULL, "fear", "fear", "stais", character(0), "wide"
+  )
+  class(tp) <- "quality_checks_timepoint"
+
+  full <- paste(capture.output(summary(tp)), collapse = "\n")
+
+  expect_match(full, "Timepoint specified\\s+FALSE")
+  expect_no_match(full, "No timepoint needed")
+})
+
 test_that("summary.quality_checks_frequency reports every measure with expected/observed counts", {
 
   checks <- make_mock_quality_checks()
