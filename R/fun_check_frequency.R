@@ -217,7 +217,14 @@ fun_check_frequency <- function(data, metadata, study_design,
       }
 
       # Get amount of expected columns
-      if (freq == "experimentwise")
+
+      if (is.na(freq))
+      {
+        freq_na_message <- paste0("No entry for frequency for ", measure_name, " in the metadata. Please fix the issue and run the function again.")
+        stop(freq_na_message)
+      }
+
+      else if (freq == "experimentwise")
       {
         n_base = 1
       }
