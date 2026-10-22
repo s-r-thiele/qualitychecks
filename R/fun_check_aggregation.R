@@ -143,6 +143,12 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
         next
       }
 
+      else if (any(is.na(ratings[[rating]]$expected_range)))
+      {
+        na_expected_range_message <- paste0("At least one entry is missing in the metadata for the expected range for ", rating, ". Please fix the issue and run the function again.")
+        stop(na_expected_range_message)
+      }
+
       else if ((min(ratings[[rating]]$observed_range) >=
            min(ratings[[rating]]$expected_range)) &
           (max(ratings[[rating]]$observed_range) <=
