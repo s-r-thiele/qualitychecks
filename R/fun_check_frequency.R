@@ -266,7 +266,7 @@ fun_check_frequency <- function(data, metadata, study_design,
 
         blockwise_message <- paste0("As of now, blockwise frequency is not ",
                                     "supported. The measure '", measure_name_clean,
-                                    "' will be skippend and reported as failed ",
+                                    "' will be skipped and reported as failed ",
                                     "until further notice.")
 
         check[[measure_name_clean]]$error <- blockwise_message
