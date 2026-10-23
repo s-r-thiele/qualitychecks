@@ -16,20 +16,20 @@
 #' @keywords internal
 #' @noRd
 fun_check_number_participants <- function(data, metadata, data_format){
-  
+
   if (data_format == "wide"){
-    
+
     n_data <- nrow(data)
     n_meta <- metadata$n_subjects
-    
+
     if (n_data == n_meta){
-      description = "Number of participants is correct"
+      description = "Number of participants is correct."
     }
-    
+
     else {
       description = paste0("Expected ", n_meta, " participants, found ", n_data, ".")
     }
-    
+
     check <- list(
       passed = (n_data == n_meta),
       observed = n_data,
@@ -37,20 +37,20 @@ fun_check_number_participants <- function(data, metadata, data_format){
       message = description
     )
   }
-  
+
   else if (data_format == "long"){
     stop(
       "Long format for data not yet implemented. In the meantime,
          please use wide format data."
     )
   }
-  
+
   else {
     stop(
       "Internal error; fun_check_number_participants : data_format"
     )
   }
-  
+
   return(check)
-  
+
 }

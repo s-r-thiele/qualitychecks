@@ -29,16 +29,19 @@ fun_check_questionnaires <- function(data, metadata, quest_names, data_format){
     }
 
     if (all(pass) == TRUE){
-      description = "All questionnaires have at least one variable in the data."
+      messg = "All questionnaires have at least one variable in the data."
     }
 
     else if (any(pass) == TRUE){
-      description = paste0(sum(pass), " of ", length(pass), " questionnaires have at
+      messg = paste0(sum(pass), " of ", length(pass), " questionnaires have at
                            least one variable in the data.")
     }
     else {
-      description = "No variables were found for any questionnaire in the data."
+      messg = "No variables were found for any questionnaire in the data."
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
     check <- list(
       passed = all(pass),

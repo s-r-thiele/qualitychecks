@@ -304,7 +304,7 @@ fun_check_frequency <- function(data, metadata, study_design,
 
     if(check$passed == TRUE)
     {
-      description <- c("Expected number of columns for each measurement based on the specification for frequency \n match the respective number of observed columns of the measures in the data")
+      messg = c("Expected number of columns for each measurement based on the specification for frequency match the respective number of observed columns of the measures in the data.")
     }
     else {
       for (m in seq_along(vars))
@@ -319,8 +319,11 @@ fun_check_frequency <- function(data, metadata, study_design,
         }
       }
       test_fail <- paste0("'", test_fail, "'", collapse = ", ")
-      description <- paste0("The expected number of columns based on the specification for frequency does not match the observed number of columns for the measure(s) ", test_fail)
+      messg = paste0("The expected number of columns based on the specification for frequency does not match the observed number of columns for the measure(s) ", test_fail, ".")
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
     check$description <- description
 

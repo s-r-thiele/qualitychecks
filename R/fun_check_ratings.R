@@ -30,15 +30,18 @@ fun_check_ratings <- function(data, metadata, rating_names, data_format){
     }
 
     if (all(pass) == TRUE){
-      description = "All ratings have at least one variable in the data."
+      messg = "All ratings have at least one variable in the data."
     }
 
     else if (any(pass) == TRUE){
-      description = paste0(sum(pass), " of ", length(pass), " ratings have at least one variable in the data.")
+      messg = paste0(sum(pass), " of ", length(pass), " ratings have at least one variable in the data.")
     }
     else {
-      description = "No variables were found for any rating in the data."
+      messg = "No variables were found for any rating in the data."
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
     check <- list(
       passed = all(pass),

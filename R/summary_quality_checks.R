@@ -315,6 +315,7 @@ summary.quality_checks_aggregation <- function(object, ...){
 
   # Description
   cat(object$ratings$description_r, "\n")
+  cat("\n")
   cat(object$questionnaires$description_q, "\n")
 }
 

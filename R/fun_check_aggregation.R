@@ -180,18 +180,21 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
     # Description
 
     if (all(pass_r) == TRUE){
-      description_r = "Specification of all rating aggregations fits the data."
+      messg_r = "Specification of all rating aggregations fits the data."
     }
 
     else if (any(pass_r) == TRUE){
-      description_r = paste0("Specification of ",sum(pass_r), " of ", length(pass_r),
+      messg_r = paste0("Specification of ",sum(pass_r), " of ", length(pass_r),
                            " rating aggregations fit the data.")
     }
     else {
-      description_r = "Specification of all rating aggregations does not fit the data."
+      messg_r = "Specification of all rating aggregations does not fit the data."
     }
 
     # Ratings pass and description
+
+    # Create description with dynamic line breaks
+    description_r = paste(strwrap(messg_r, width = 41), collapse = "\n")
 
     ratings$passed_r <- all(pass_r)
     ratings$description_r <- description_r
@@ -332,18 +335,21 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
     # Description
 
     if (all(pass_q) == TRUE){
-      description_q = "Specification of questionnaire aggregation fits the data."
+      messg_q = "Specification of questionnaire aggregation fits the data."
     }
 
     else if (any(pass_q) == TRUE){
-      description_q = paste0("Specification of ",sum(pass_q), " of ", length(pass_q),
+      messg_q = paste0("Specification of ",sum(pass_q), " of ", length(pass_q),
       " questionnaire aggregations fit the data.")
     }
     else {
-      description_q = "Specification of all questionnaire aggregation does not fit the data."
+      messg_q = "Specification of all questionnaire aggregation does not fit the data."
     }
 
     # Questionnaire pass and description
+
+    # Create description with dynamic line breaks
+    description_q = paste(strwrap(messg_q, width = 41), collapse = "\n")
 
     questionnaires$passed_q <- all(pass_q)
     questionnaires$description_q <- description_q

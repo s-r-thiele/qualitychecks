@@ -167,7 +167,7 @@ fun_check_timepoint <- function(data, metadata, study_design,
 
     if (check$passed == TRUE)
     {
-      description <- c("All combinations of specified timepoints and variables have been found in the data")
+      messg <- c("All combinations of specified timepoints and variables have been found in the data.")
     }
     else {
       for (m in seq_along(vars))
@@ -182,9 +182,12 @@ fun_check_timepoint <- function(data, metadata, study_design,
         }
       }
       test_fail <- paste0("'", test_fail, "'", collapse = ", ")
-      description <- paste0("Specification for at least one timepoint of the measure(s) ",
-                            test_fail, " does not fit the data")
+      messg <- paste0("Specification for at least one timepoint of the measure(s) ",
+                            test_fail, " does not fit the data.")
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
      check$description <- description
   }

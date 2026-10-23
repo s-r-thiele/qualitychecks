@@ -29,15 +29,18 @@ fun_check_phases <- function(data, study_design, data_format){
     }
 
     if (all(pass) == TRUE){
-      description = c("All phases have at least one variable in the data.")
+      messg = c("All phases have at least one variable in the data.")
     }
 
     else if (any(pass) == TRUE){
-      description = paste0(sum(pass), " of ", length(pass), " phases have at least one variable in the data.")
+      messg = paste0(sum(pass), " of ", length(pass), " phases have at least one variable in the data.")
     }
     else {
-      description <- c("No variables were found for any phase in the data.")
+      messg = c("No variables were found for any phase in the data.")
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
     check <- list(
       passed = all(pass),

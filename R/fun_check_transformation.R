@@ -234,7 +234,7 @@ fun_check_transformation <- function(data, metadata,
     # Create description
     if (variables$passed == TRUE)
     {
-      description <- c("Specification of all transformations for all measures fits the data")
+      messg = c("Specification of all transformations for all measures fits the data.")
     }
     else {
       test_fail <- character()
@@ -249,9 +249,12 @@ fun_check_transformation <- function(data, metadata,
         }
       }
       test_fail <- paste0("'", test_fail, "'", collapse = ", ")
-      description <- paste0("Specification for at least one transformation of the measure(s) ",
-                            test_fail, " does not fit the data")
+      messg <- paste0("Specification for at least one transformation of the measure(s) ",
+                            test_fail, " does not fit the data.")
     }
+
+    # Create description with dynamic line breaks
+    description = paste(strwrap(messg, width = 41), collapse = "\n")
 
     variables$description <- description
 
