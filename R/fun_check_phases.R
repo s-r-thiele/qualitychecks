@@ -20,11 +20,12 @@ fun_check_phases <- function(data, study_design, data_format){
   if (data_format == "wide"){
 
     phase_names <- study_design$name
+    phase_names_underscore <- paste0(study_design$name, "_")
 
     pass <- c()
 
     for (n in seq_along(phase_names)){
-      pass[n] <- any(grepl(phase_names[n], names(data)))
+      pass[n] <- any(grepl(phase_names_underscore[n], names(data)))
     }
 
     if (all(pass) == TRUE){
