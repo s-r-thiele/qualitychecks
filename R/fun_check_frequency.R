@@ -218,10 +218,24 @@ fun_check_frequency <- function(data, metadata, study_design,
 
       # Get amount of expected columns
 
+      # Warning and test fail if no entry is found for frequency
       if (is.na(freq))
       {
-        freq_na_message <- paste0("No entry for frequency for ", measure_name, " in the metadata. Please fix the issue and run the function again.")
-        stop(freq_na_message)
+        freq_na_message <- paste0("No entry for the frequency for the measure '",
+                                  measure_name, "' in the metadata. This measure ",
+                                  "is reported as failed until the information ",
+                                  "is provided.")
+
+        check[[measure_name_clean]]$error <- freq_na_message
+        check[[measure_name_clean]]$n_col_exp <- NA
+        check[[measure_name_clean]]$n_col_obs <- NA
+
+        check_local_f[m] <- FALSE
+        check[[measure_name_clean]]$pass <- check_local_f[m]
+
+        warning(freq_na_message, call. = FALSE)
+
+        next
       }
 
       else if (freq == "experimentwise")

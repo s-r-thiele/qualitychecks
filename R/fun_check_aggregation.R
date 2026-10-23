@@ -143,10 +143,21 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
         next
       }
 
+      # If at least one entry is missing in the meta data for the range
       else if (any(is.na(ratings[[rating]]$expected_range)))
       {
-        na_expected_range_message <- paste0("At least one entry is missing in the metadata for the expected range for ", rating, ". Please fix the issue and run the function again.")
-        stop(na_expected_range_message)
+        na_expected_range_message <- paste0("At least one entry is missing in ",
+        "the metadata for the expected range of '", rating, "'. This rating is ",
+        "reported as failed until the information is provided.")
+
+        ratings[[rating]]$error <- na_expected_range_message
+        ratings[[rating]]$pass_rat <- FALSE
+        pass_r[r] <- FALSE
+
+        warning(na_expected_range_message, call. = FALSE)
+
+        next
+
       }
 
       else if ((min(ratings[[rating]]$observed_range) >=
