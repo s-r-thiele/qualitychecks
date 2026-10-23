@@ -222,7 +222,7 @@ fun_check_frequency <- function(data, metadata, study_design,
       if (is.na(freq))
       {
         freq_na_message <- paste0("No entry for the frequency for the measure '",
-                                  measure_name, "' in the metadata. This measure ",
+                                  measure_name_clean, "' in the metadata. This measure ",
                                   "is reported as failed until the information ",
                                   "is provided.")
 
@@ -263,7 +263,22 @@ fun_check_frequency <- function(data, metadata, study_design,
       }
       else if (freq == "blockwise")
       {
-        stop("Blockwise frequency is not implemented yet")
+
+        blockwise_message <- paste0("As of now, blockwise frequency is not ",
+                                    "supported. The measure '", measure_name_clean,
+                                    "' will be skippend and reported as failed ",
+                                    "until further notice.")
+
+        check[[measure_name_clean]]$error <- blockwise_message
+        check[[measure_name_clean]]$n_col_exp <- NA
+        check[[measure_name_clean]]$n_col_obs <- NA
+
+        check_local_f[m] <- FALSE
+        check[[measure_name_clean]]$pass <- check_local_f[m]
+
+        warning(blockwise_message, call. = FALSE)
+
+        next
         # n_base = 1*n_blocks
       }
       else if (freq == "trialwise")
