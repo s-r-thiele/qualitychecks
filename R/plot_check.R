@@ -95,8 +95,16 @@ plot_check <- function(object, measure,
     }
 
     else if (transform == "sqrt"){
+
+      n_invalid <- sum(data_mes_l$vals < 0, na.rm = TRUE)
+      if (n_invalid > 0){
+        warning("Transformation 'sqrt' is not defined for ", n_invalid, " of ",
+                sum(!is.na(data_mes_l$vals)), " values (< 0). These values ",
+                "become NA and are dropped from the plot.", call. = FALSE)
+      }
+
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = sqrt(.data$vals))
+        dplyr::mutate(vals = sqrt(ifelse(.data$vals < 0, NA_real_, .data$vals)))
 
       transform_info = "sqrt"
     }
@@ -109,8 +117,16 @@ plot_check <- function(object, measure,
     }
 
     else if (transform == "log"){
+
+      n_invalid <- sum(data_mes_l$vals <= 0, na.rm = TRUE)
+      if (n_invalid > 0){
+        warning("Transformation 'log' is not defined for ", n_invalid, " of ",
+                sum(!is.na(data_mes_l$vals)), " values (<= 0). These values ",
+                "become NA and are dropped from the plot.", call. = FALSE)
+      }
+
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = log(.data$vals))
+        dplyr::mutate(vals = log(ifelse(.data$vals <= 0, NA_real_, .data$vals)))
 
       transform_info = "log"
     }
