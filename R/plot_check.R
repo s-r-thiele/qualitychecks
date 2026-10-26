@@ -89,28 +89,28 @@ plot_check <- function(object, measure,
 
     else if (transform %in% c("^2", "square")){
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = vals^2)
+        dplyr::mutate(vals = .data$vals^2)
 
       transform_info = "squared"
     }
 
     else if (transform == "sqrt"){
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = sqrt(vals))
+        dplyr::mutate(vals = sqrt(.data$vals))
 
       transform_info = "sqrt"
     }
 
     else if (transform == "exp"){
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = exp(vals))
+        dplyr::mutate(vals = exp(.data$vals))
 
       transform_info = "exp"
     }
 
     else if (transform == "log"){
       data_mes_l <- data_mes_l |>
-        dplyr::mutate(vals = log(vals))
+        dplyr::mutate(vals = log(.data$vals))
 
       transform_info = "log"
     }
