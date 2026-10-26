@@ -195,7 +195,7 @@ test_that("'daywise' frequency uses the sum of study_design$timeToNext (in days)
   expect_equal(result$fear$n_col_exp, 2)
 })
 
-test_that("'blockwise' frequency is not yet implemented and errors explicitly", {
+test_that("'blockwise' frequency is not yet implemented: the measure fails with a warning", {
 
   metadata <- data.frame(
     rating_fear_frequency  = "blockwise", rating_fear_timepoint  = "pre",
@@ -209,16 +209,29 @@ test_that("'blockwise' frequency is not yet implemented and errors explicitly", 
     stais___experimentwise_raw_pre_____t1_ = c(1, 2, 3)
   )
 
-  expect_error(
-    fun_check_frequency(
+  expect_warning(
+    result <- fun_check_frequency(
       data, metadata, study_design = data.frame(),
       rating_names = "fear", rating_names_fix = "fear",
       quest_names = "stais", pmeasure_names = character(0),
       info_measures = NULL, data_format = "wide"
     ),
-    "Blockwise frequency is not implemented yet"
+    "blockwise frequency is not supported.*'fear'"
   )
+
+  # The unsupported measure is reported as failed, with an explanation,
+  # instead of being silently skipped
+  expect_false(result$fear$pass)
+  expect_match(result$fear$error, "blockwise frequency is not supported")
+  expect_true(is.na(result$fear$n_col_exp))
+  expect_true(is.na(result$fear$n_col_obs))
+  # The overall check fails because of it ...
+  expect_false(result$passed)
+  expect_match(result$description, "'fear'")
+  # ... but the other measure is still evaluated normally
+  expect_true(result$stais$pass)
 })
+
 
 test_that("FIXED: no questionnaires at all (quest_names of length 0) no longer errors", {
   # Previously, paste0("quest_", character(0)) returned "quest_" (length 1)
@@ -263,5 +276,3 @@ test_that("FIXED: no ratings at all (rating_names of length 0) no longer errors"
   expect_true(result$passed)
   expect_true(result$stais$pass)
 })
-
-
