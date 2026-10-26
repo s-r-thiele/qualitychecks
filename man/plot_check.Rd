@@ -4,7 +4,15 @@
 \alias{plot_check}
 \title{Plot the raw values of one measure from a quality_checks result}
 \usage{
-plot_check(object, measure, type = "point", wrap = FALSE, transform = "raw")
+plot_check(
+  object,
+  measure,
+  type = "point",
+  wrap = FALSE,
+  transform = "raw",
+  n_id = NULL,
+  wrap_by_id = FALSE
+)
 }
 \arguments{
 \item{object}{An object of class \code{quality_checks}, as returned by
@@ -13,13 +21,23 @@ plot_check(object, measure, type = "point", wrap = FALSE, transform = "raw")
 \item{measure}{Character. Name (or regular expression) of the measure to
 plot. Every column whose name matches is included.}
 
-\item{type}{Character. \code{"point"} (default), \code{"boxplot"} or \code{"density"}.}
+\item{type}{Character. Type of plot. \code{"point"} (default), \code{"boxplot"} or
+\code{"density"}.}
 
 \item{wrap}{Logical. \code{FALSE} (default): all matching columns in one plot.
 \code{TRUE}: one facet per column.}
 
-\item{transform}{Character. \code{"raw"} (default), \code{"square"}, \code{"sqrt"}, \code{"exp"}
+\item{transform}{Character. Transformation which should be performed on the
+data.  \code{"raw"} (default), \code{"square"}, \code{"sqrt"}, \code{"exp"}
 or \code{"log"}.}
+
+\item{n_id}{Integer vector. IDs which should be included in the plots. Selects
+using the position, i.e., \code{data[n_id,]}, not by matching against the ID
+variable.}
+
+\item{wrap_by_id}{Logical. Instead of wrapping across all columns, wraps across
+the ID variable. Default is \code{FALSE}. When \code{TRUE}, automatically sets
+\code{wrap} = \code{TRUE}.}
 }
 \value{
 A ggplot object (or, for an unsupported \code{type} or \code{transformation},

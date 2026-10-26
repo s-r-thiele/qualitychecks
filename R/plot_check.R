@@ -11,11 +11,19 @@
 #'   [quality_checks()].
 #' @param measure Character. Name (or regular expression) of the measure to
 #'   plot. Every column whose name matches is included.
-#' @param type Character. `"point"` (default), `"boxplot"` or `"density"`.
+#' @param type Character. Type of plot. `"point"` (default), `"boxplot"` or
+#'    `"density"`.
 #' @param wrap Logical. `FALSE` (default): all matching columns in one plot.
 #'   `TRUE`: one facet per column.
-#' @param transform Character. `"raw"` (default), `"square"`, `"sqrt"`, `"exp"`
+#' @param transform Character. Transformation which should be performed on the
+#'    data.  `"raw"` (default), `"square"`, `"sqrt"`, `"exp"`
 #'    or `"log"`.
+#' @param n_id Integer vector. IDs which should be included in the plots. Selects
+#'    using the position, i.e., `data[n_id,]`, not by matching against the ID
+#'    variable.
+#' @param wrap_by_id Logical. Instead of wrapping across all columns, wraps across
+#'    the ID variable. Default is `FALSE`. When `TRUE`, automatically sets
+#'    `wrap` = `TRUE`.
 #'
 #' @importFrom rlang .data
 #'
@@ -25,7 +33,9 @@
 plot_check <- function(object, measure,
                        type = "point",
                        wrap = FALSE,
-                       transform = "raw"){
+                       transform = "raw",
+                       n_id = NULL,
+                       wrap_by_id = FALSE){
 
   if (object$inputs$data_format == "wide"){
 
@@ -58,6 +68,12 @@ plot_check <- function(object, measure,
         dplyr::mutate(id = as.factor(data[[id_col]]))
     }
 
+    # Select IDs if specified
+    if (!is.null(n_id)){
+
+      data_mes <- data_mes[n_id,]
+
+    }
 
     # Pivot dataset
     data_mes_l <- data_mes |>
@@ -102,6 +118,10 @@ plot_check <- function(object, measure,
       stop("The function currently only supports transformations 'raw', 'square', 'sqrt', 'exp' and 'log'.")
     }
 
+    if (wrap_by_id == TRUE){
+      wrap = TRUE
+    }
+
     # Point Cloud
 
     if (type == "point"){
@@ -118,13 +138,33 @@ plot_check <- function(object, measure,
 
       else if (wrap == TRUE){
 
-        ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$id,
-                                                        y = .data$vals,
-                                                        group = .data$names))+
-          ggplot2::geom_point()+
-          ggplot2::facet_wrap(~names, scales = "free")+
-          ggplot2::xlab("Participant ID")+
-          ggplot2::ylab(paste(transform_info, measure, "values"))
+        if (wrap_by_id == FALSE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$id,
+                                                          y = .data$vals,
+                                                          group = .data$names))+
+            ggplot2::geom_point()+
+            ggplot2::facet_wrap(~names, scales = "free")+
+            ggplot2::xlab("Participant ID")+
+            ggplot2::ylab(paste(transform_info, measure, "values"))
+
+        }
+
+        else if (wrap_by_id == TRUE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$names,
+                                                          y = .data$vals,
+                                                          group = .data$id))+
+            ggplot2::geom_point()+
+            ggplot2::facet_wrap(~id, scales = "free")+
+            ggplot2::xlab("Variables")+
+            ggplot2::ylab(paste(transform_info, measure, "values"))+
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_blank()
+            )
+
+        }
+
       }
 
     }
@@ -143,10 +183,26 @@ plot_check <- function(object, measure,
 
       else if (wrap == TRUE){
 
-        ggplot2::ggplot(data = data_mes_l, ggplot2::aes(y = .data$vals, group = .data$names))+
-          ggplot2::geom_boxplot()+
-          ggplot2::facet_wrap(~names, scales = "free")+
-          ggplot2::ylab(paste(transform_info, measure, "values"))
+        if (wrap_by_id == FALSE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(y = .data$vals,
+                                                          group = .data$names))+
+            ggplot2::geom_boxplot()+
+            ggplot2::facet_wrap(~names, scales = "free")+
+            ggplot2::ylab(paste(transform_info, measure, "values"))
+
+        }
+
+        else if (wrap_by_id == TRUE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(y = .data$vals,
+                                                          group = .data$id))+
+            ggplot2::geom_boxplot()+
+            ggplot2::facet_wrap(~id, scales = "free")+
+            ggplot2::ylab(paste(transform_info, measure, "values"))
+
+        }
+
       }
 
     }
@@ -166,11 +222,26 @@ plot_check <- function(object, measure,
 
       else if (wrap == TRUE){
 
-        ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$vals, group = .data$names))+
-          ggplot2::geom_density()+
-          ggplot2::facet_wrap(~names)+
-          ggplot2::xlab(paste(transform_info, measure, "values"))+
-          ggplot2::ylab("Density")
+        if (wrap_by_id == FALSE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$vals, group = .data$names))+
+            ggplot2::geom_density()+
+            ggplot2::facet_wrap(~names, scales = "free")+
+            ggplot2::xlab(paste(transform_info, measure, "values"))+
+            ggplot2::ylab("Density")
+
+        }
+
+        else if (wrap_by_id == TRUE){
+
+          ggplot2::ggplot(data = data_mes_l, ggplot2::aes(x = .data$vals, group = .data$id))+
+            ggplot2::geom_density()+
+            ggplot2::facet_wrap(~id, scales = "free")+
+            ggplot2::xlab(paste(transform_info, measure, "values"))+
+            ggplot2::ylab("Density")
+
+        }
+
       }
 
     }
