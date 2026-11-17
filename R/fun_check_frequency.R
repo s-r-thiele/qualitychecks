@@ -245,7 +245,7 @@ fun_check_frequency <- function(data, metadata, study_design,
       else if (freq == "daywise")
       {
         n_days <- sum(study_design$timeToNext[study_design$timeToNextUnit == "days"])
-        n_base = 1*n_days
+        n_base = 1*n_days + 1 # Add 1 for the first day
       }
       else if (freq == "phasewise")
       {
