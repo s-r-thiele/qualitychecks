@@ -5,3 +5,5 @@ range;0, 1;0, 1;0, Inf
 sqrt;0, Inf;0, Inf;0, Inf
 z;-Inf, Inf;0, 0;1, 1
 t;-Inf, Inf;50, 50;10, 10
+other;-Inf, Inf;-Inf, Inf;0, Inf
+dem;-Inf, Inf;0, 0;0, Inf
