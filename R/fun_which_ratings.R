@@ -32,25 +32,25 @@
 #' @keywords internal
 #' @noRd
 fun_which_ratings <- function(metadata, codebook){
-  
+
   # Ratings in codebook
-  
-  codebook_ratings <- codebook$abbreviation[13:23]
-  
+
+  codebook_ratings <- codebook$abbreviation[13:24]
+
   # Get all variables with 'rating' as prefix
-  
+
   rating_vars <- names(metadata)[grepl("^rating_", names(metadata))]
-  
+
   # Select only the ratings
-  
+
   ratings_provided <- rating_vars[rating_vars %in% c(paste0("rating_", codebook_ratings))]
-  
+
   # Remove prefix
-  
+
   rating_names <- sub("^rating_", "", ratings_provided)
-  
+
   return(rating_names)
-  
+
 }
 
 

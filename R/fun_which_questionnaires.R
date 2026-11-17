@@ -27,22 +27,22 @@
 #' @keywords internal
 #' @noRd
 fun_which_questionnaires <- function(metadata, codebook){
-  
+
   # Questionnaires in codebook
-  
-  codebook_quest <- codebook$abbreviation[24:42]
-  
+
+  codebook_quest <- codebook$abbreviation[25:49]
+
   # Get all variables with 'quest' as prefix
-  
+
   quest_vars <- names(metadata)[grepl("^quest_", names(metadata))]
-  
+
   # Select only the questionnaires
-  
+
   quest_provided <- quest_vars[quest_vars %in% c(paste0("quest_", codebook_quest))]
-  
+
   # Remove prefix
-  
+
   quest_names <- sub("^quest_", "", quest_provided)
-  
+
   return(quest_names)
 }
