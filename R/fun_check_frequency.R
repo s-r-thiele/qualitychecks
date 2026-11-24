@@ -334,7 +334,7 @@ fun_check_frequency <- function(data, metadata, study_design,
         }
       }
       test_fail <- paste0("'", test_fail, "'", collapse = ", ")
-      messg = paste0("The expected number of columns based on the specification for frequency does not match the observed number of columns for the measure(s) ", test_fail, ".")
+      messg = paste0("The expected number of columns based on the specification for frequency does not match the observed number of columns for the measure[s] ", test_fail, ".")
     }
 
     # Create description with dynamic line breaks

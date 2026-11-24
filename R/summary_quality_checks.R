@@ -17,19 +17,27 @@
 #' @export
 summary.quality_checks <- function(object, full = FALSE, ...){
 
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Summary\n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Participant n", object$participant_n$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Participant ID", object$participant_id$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Phases", object$phases$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Ratings", object$ratings$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Questionnaires", object$questionnaires$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Aggregation", object$aggregation$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Transformation", object$transformation$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Timepoint", object$timepoint$passed))
-  cat(sprintf("%0s %-22s %17s\n", "", "Frequency", object$frequency$passed))
+  cat("------------------------------------------\n")
+  cat("Title:", "\n")
+  cat(paste(strwrap(object$inputs$metadata$title, width = 41), collapse = "\n"))
+  cat("\n")
+  cat("\n")
+  cat("Author[s]:", "\n")
+  cat(paste(strwrap(object$inputs$metadata$authors, width = 41), collapse = "\n"))
+  cat("\n")
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Participant n", object$participant_n$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Participant ID", object$participant_id$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Phases", object$phases$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Ratings", object$ratings$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Questionnaires", object$questionnaires$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Aggregation", object$aggregation$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Transformation", object$transformation$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Timepoint", object$timepoint$passed))
+  cat(sprintf("%0s %-23s %17s\n", "", "Frequency", object$frequency$passed))
   cat("\n")
 
   if (full == FALSE){
@@ -78,16 +86,16 @@ summary.quality_checks <- function(object, full = FALSE, ...){
 summary.quality_checks_participant_n <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Participant_n \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Participant n", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Participant n", object$passed))
   cat("\n")
 
   # Test specifics
-  cat(sprintf("%-22s %18s\n","Expected n", object$expected))
-  cat(sprintf("%-22s %18s\n","Observed n", object$observed))
+  cat(sprintf("%-23s %18s\n","Expected n", object$expected))
+  cat(sprintf("%-23s %18s\n","Observed n", object$observed))
   cat("\n")
 
   # Description
@@ -109,11 +117,11 @@ summary.quality_checks_participant_n <- function(object, ...){
 summary.quality_checks_participant_id <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Participant_id \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Participant ID", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Participant ID", object$passed))
   cat("\n")
 
   # Description
@@ -136,19 +144,19 @@ summary.quality_checks_participant_id <- function(object, ...){
 summary.quality_checks_phases <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Phases \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Phases", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Phases", object$passed))
   cat("\n")
 
   # Test specifics
-  cat(sprintf("%-22s %18s\n", "Phases", "Found in data")) # Title
+  cat(sprintf("%-23s %18s\n", "Phases", "Found in data")) # Title
 
   for (n in seq_along(object$phases))
   {
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                       # Indent
                 object$phases[n],         # Phases given in metadata
                 object$pass_phases[n]))   # Results of test if phases found
@@ -175,19 +183,19 @@ summary.quality_checks_phases <- function(object, ...){
 summary.quality_checks_ratings <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Ratings \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Ratings", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Ratings", object$passed))
   cat("\n")
 
   # Test specifics
-  cat(sprintf("%-22s %18s\n", "Ratings", "Found in data")) # Title
+  cat(sprintf("%-23s %18s\n", "Ratings", "Found in data")) # Title
 
   for (n in seq_along(object$ratings))
   {
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                        # Indent
                 object$ratings[n],         # Ratings given in metadata
                 object$pass_ratings[n]))   # Results of test if rating found
@@ -214,19 +222,19 @@ summary.quality_checks_ratings <- function(object, ...){
 summary.quality_checks_questionnaires <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Questionnaires \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Questionnaires", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Questionnaires", object$passed))
   cat("\n")
 
   # Test specifics
-  cat(sprintf("%-22s %18s\n","Questionnaires", "Found in data")) # Title
+  cat(sprintf("%-23s %18s\n","Questionnaires", "Found in data")) # Title
 
   for (n in seq_along(object$questionnaires))
   {
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                             # Indent
                 object$questionnaires[n],       # Questionnaires given in metadata
                 object$pass_questionnaires[n])) # Test results
@@ -254,11 +262,11 @@ summary.quality_checks_questionnaires <- function(object, ...){
 summary.quality_checks_aggregation <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Aggregation \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n","Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Aggregation:", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n","Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Aggregation:", object$passed))
   cat("\n")
 
   # Test specifics
@@ -268,21 +276,21 @@ summary.quality_checks_aggregation <- function(object, ...){
                                                       # in ratings that are lists
   for (n in seq_along(ratings))
   {
-    cat(sprintf("%-40s\n", names(ratings)[n])) # Rating names
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%-41s\n", names(ratings)[n])) # Rating names
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                            # Indent
-                "Passed",                      # Passing
+                "Measure OK",                      # Passing
                 ratings[[n]]$pass_rat))        # Did the rating pass?
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Aggregation",                 # Aggregation
                 ratings[[n]]$aggregation))     # What aggregation was entered
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Expected Range",              # Expected range
                 paste0(ratings[[n]]$expected_range, collapse = " - "))) # What is the expected range
                                                                         # based on aggregation given
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Observed Range",              # Observed range
                 paste0(ratings[[n]]$observed_range, collapse = " - "))) # What is the observed range
@@ -292,21 +300,21 @@ summary.quality_checks_aggregation <- function(object, ...){
   quest <- object$questionnaires[sapply(object$questionnaires, is.list)]
   for (n in seq_along(quest))
   {
-    cat(sprintf("%-40s\n", names(quest)[n])) # Title
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%-41s\n", names(quest)[n])) # Title
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                          # Indent
-                "Passed",                    # Passing
+                "Measure OK",                    # Passing
                 quest[[n]]$pass_quest))      # Did the questionnaire pass?
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Aggregation",               # Aggregation
                 quest[[n]]$aggregation))     # What aggregation was entered
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Expected Range",            # Expected range
                 paste0(quest[[n]]$expected_range, collapse = " - "))) # What is the expected range
                                                                       # based on aggegation given
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Observed Range",            # Observed range
                 paste0(quest[[n]]$observed_range, collapse = " - "))) # What is the observed range
@@ -336,11 +344,11 @@ summary.quality_checks_aggregation <- function(object, ...){
 summary.quality_checks_transformation <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Transformation \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n", "Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Transformation:", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n", "Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Transformation:", object$passed))
   cat("\n")
 
   # Test specifics
@@ -348,10 +356,10 @@ summary.quality_checks_transformation <- function(object, ...){
   for (n in seq_along(measures))
   {
     mes <- names(measures)[n]
-    cat(sprintf("%-32s\n", mes))              # Measure name
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%-33s\n", mes))              # Measure name
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                                           # Indent
-                "Passed",                                     # Passed
+                "Measure OK",                                     # Passed
                 measures[[mes]]$transformations$pass_local))  # Result of test
 
     # Every transformation
@@ -360,33 +368,33 @@ summary.quality_checks_transformation <- function(object, ...){
     {
       exp_obj <- measures[[mes]]$transformations[[t]]  # info on expected values
       obs_obj <- measures[[mes]]$descriptive_measures  # info on observed values
-      cat(sprintf("%0s %-22s %17s\n",
+      cat(sprintf("%0s %-23s %17s\n",
                   "",
                   paste0("Transformation ", t),        # Order of transformation
                   exp_obj$name))                       # Which transformation?
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "Mean exp.",                         # Expected mean
+                  "Expected Mean",                         # Expected mean
                   paste0(exp_obj$mean_expected, collapse = " - ")))
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "Mean obs.",                         # Observed mean
+                  "Observed Mean",                         # Observed mean
                   paste0(round(range(obs_obj$mean, na.rm = !all(is.na(obs_obj$mean))), 1), collapse = " - ")))
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "SD exp.",                           # Expected standard deviation
+                  "Expected SD",                           # Expected standard deviation
                   paste0(exp_obj$sd_expected, collapse = " - ")))
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "SD obs.",                           # Observed standard deviation
+                  "Observed SD",                           # Observed standard deviation
                   paste0(round(range(obs_obj$sd, na.rm = !all(is.na(obs_obj$sd))), 1), collapse = " - ")))
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "Range exp.",                        # Expected range
+                  "Expected Range",                        # Expected range
                   paste0(exp_obj$range_expected, collapse = " - ")))
-      cat(sprintf("%1s %-22s %16s\n",
+      cat(sprintf("%1s %-23s %16s\n",
                   "",
-                  "Range obs.",                        # Observed range
+                  "Observed Range",                        # Observed range
                   paste0(round(range(obs_obj$range, na.rm = !all(is.na(obs_obj$range))), 1), collapse = " - ")))
     }
   }
@@ -413,11 +421,11 @@ summary.quality_checks_transformation <- function(object, ...){
 summary.quality_checks_timepoint <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Timepoint \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n", "Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Timepoint:", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n", "Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Timepoint:", object$passed))
   cat("\n")
 
   # Test specifics
@@ -425,10 +433,10 @@ summary.quality_checks_timepoint <- function(object, ...){
   for (n in seq_along(tp))
   {
     measure <- names(tp)[n]
-    cat(sprintf("%-40s\n", measure))            # Measure name
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%-41s\n", measure))            # Measure name
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                             # Indent
-                "Passed",                       # Passed
+                "Measure OK",                       # Passed
                 tp[[measure]]$pass))            # Test result
 
     for (i in seq_along(tp[[measure]]$value))   # Across all timepoints provided
@@ -441,19 +449,19 @@ summary.quality_checks_timepoint <- function(object, ...){
       {
         if (isTRUE(tp[[measure]]$check[["NA"]]))
         {
-          cat(sprintf("%0s %-22s %17s\n", "", "No timepoint needed", TRUE))
+          cat(sprintf("%0s %-23s %17s\n", "", "No timepoint needed", TRUE))
         }
         else
         {
           # Not trialwise, so a timepoint would have been required
-          cat(sprintf("%0s %-22s %17s\n", "", "Timepoint specified", FALSE))
+          cat(sprintf("%0s %-23s %17s\n", "", "Timepoint specified", FALSE))
         }
         next
       }
 
-      cat(sprintf("%0s %-22s %17s\n",
+      cat(sprintf("%0s %-23s %17s\n",
                   "",
-                  paste0("Timepoints ", tp[[measure]]$value[i], " found"), # Which timepoint was provided?
+                  paste0("Timepoint[s] ", tp[[measure]]$value[i], " found"), # Which timepoint was provided?
                   tp[[measure]]$check[[tp_name]]))                         # Test result
     }
   }
@@ -480,11 +488,11 @@ summary.quality_checks_timepoint <- function(object, ...){
 summary.quality_checks_frequency <- function(object, ...){
 
   # Head
-  cat("-----------------------------------------\n")
+  cat("------------------------------------------\n")
   cat("Quality Check Frequency \n")
-  cat("-----------------------------------------\n")
-  cat(sprintf("%-22s %18s\n", "Check", "Passed"))
-  cat(sprintf("%0s %-22s %17s\n", "", "Frequency:", object$passed))
+  cat("------------------------------------------\n")
+  cat(sprintf("%-23s %18s\n", "Check", "Passed"))
+  cat(sprintf("%0s %-23s %17s\n", "", "Frequency:", object$passed))
   cat("\n")
 
   # Test specifics
@@ -492,25 +500,25 @@ summary.quality_checks_frequency <- function(object, ...){
   for (n in seq_along(freq))
   {
     measure <- names(freq)[n]
-    cat(sprintf("%-40s\n", measure))       # Measure name
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%-41s\n", measure))       # Measure name
+    cat(sprintf("%0s %-23s %17s\n",
                 "",                        # Indent
-                "Passed",                  # Passed
+                "Measure OK",                  # Passed
                 freq[[measure]]$pass))     # Test result
-    cat(sprintf("%0s %-22s %17s\n",
+    cat(sprintf("%0s %-23s %17s\n",
                 "",
                 "Frequency",               # Frequency
-                paste0(substr(freq[[measure]]$value, 1, 5), "."))) # Entry given in metadata
+                freq[[measure]]$value)) # Entry given in metadata
 
     for (i in seq_along(freq[[measure]]$value))  # for all frequency enties
     {
-      cat(sprintf("%0s %-22s %17s\n",
+      cat(sprintf("%0s %-23s %17s\n",
                   "",
-                  "n columns exp.",              # expected number of entries
+                  "Expected column n",              # expected number of entries
                   freq[[measure]]$n_col_exp))
-      cat(sprintf("%0s %-22s %17s\n",
+      cat(sprintf("%0s %-23s %17s\n",
                   "",
-                  "n columns obs.",              # observed number of entries
+                  "Observed column n",              # observed number of entries
                   freq[[measure]]$n_col_obs))
     }
   }

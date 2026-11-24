@@ -180,15 +180,16 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
     # Description
 
     if (all(pass_r) == TRUE){
-      messg_r = "Specification of all rating aggregations fits the data."
+      messg_r = "Rating aggregation information matches the data. All values lie within the expected range."
     }
 
     else if (any(pass_r) == TRUE){
-      messg_r = paste0("Specification of ",sum(pass_r), " of ", length(pass_r),
-                           " rating aggregations fit the data.")
+      messg_r = paste0("Aggregation or range information of ", sum(pass_r)-length(pass_r),
+                       " of ", length(pass_r), " rating[s] does not match expected",
+                       " information.")
     }
     else {
-      messg_r = "Specification of all rating aggregations does not fit the data."
+      messg_r = "Aggregation or range information of all rating[s] does not fit the data."
     }
 
     # Ratings pass and description
@@ -335,15 +336,16 @@ fun_check_aggregation <- function(data, metadata, rating_names, rating_names_fix
     # Description
 
     if (all(pass_q) == TRUE){
-      messg_q = "Specification of questionnaire aggregation fits the data."
+      messg_q = "Questionnaire aggregation information matches the data. All values lie within the expected range."
     }
 
     else if (any(pass_q) == TRUE){
-      messg_q = paste0("Specification of ",sum(pass_q), " of ", length(pass_q),
-      " questionnaire aggregations fit the data.")
+      messg_q = paste0("Aggregation or range information of ", sum(pass_q)-length(pass_q),
+             " of ", length(pass_q), " questionnaire[s] does not match expected",
+             " information.")
     }
     else {
-      messg_q = "Specification of all questionnaire aggregation does not fit the data."
+      messg_q = "Aggregation or range information of all questionnaire[s] does not fit the data."
     }
 
     # Questionnaire pass and description
