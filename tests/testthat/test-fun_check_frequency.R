@@ -176,11 +176,12 @@ test_that("'daywise' frequency uses the sum of study_design$timeToNext (in days)
     timeToNext     = c(1, 1),
     timeToNextUnit = c("days", "days")
   )
-  # daywise over 2 days x 1 timepoint -> 2 expected columns
+  # daywise over 3 days (initial day + 2 days entries) x 1 timepoint -> 2 expected columns
   data <- data.frame(
     participant_id = 1:3,
     fear_0_10_daywise_raw_pre_d1_____ = c(1, 2, 3),
     fear_0_10_daywise_raw_pre_d2_____ = c(4, 5, 6),
+    fear_0_10_daywise_raw_pre_d3_____ = c(7, 8, 9),
     stais___experimentwise_raw_pre_____t1_ = c(1, 2, 3)
   )
 
@@ -192,7 +193,7 @@ test_that("'daywise' frequency uses the sum of study_design$timeToNext (in days)
   )
 
   expect_true(result$passed)
-  expect_equal(result$fear$n_col_exp, 2)
+  expect_equal(result$fear$n_col_exp, 3)
 })
 
 test_that("'blockwise' frequency is not yet implemented: the measure fails with a warning", {

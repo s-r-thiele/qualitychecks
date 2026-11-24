@@ -25,13 +25,14 @@ make_test_codebook <- function() {
       "participant_id", "exp_group", "sex", "gender", "age", "hormc", "intset",
       # 8-12: physiological measures
       "scr", "scl", "ps", "fps", "hr",
-      # 13-23: ratings
+      # 13-24: ratings
       "expect", "us_intrat", "val", "arous", "fear", "stress", "anx",
-      "aware", "us_val", "us_arous", "uneas",
-      # 24-42: questionnaires
+      "aware", "us_val", "us_arous", "uneas", "approval",
+      # 25-49: questionnaires
       "stais", "stait", "neo-ffi", "promis", "asi", "ius", "pswq",
       "neo_pi_r", "dass-21", "dass-21-a", "ads-l", "fsq", "sam", "bdi",
-      "fpq", "scl_90", "fpq-sf", "sticsa", "vams"
+      "fpq", "scl_90", "fpq-sf", "sticsa", "vams", "bsi", "mini", "fsb",
+      "bdi-ii", "ctq", "bis-bas"
     ),
     stringsAsFactors = FALSE
   )
